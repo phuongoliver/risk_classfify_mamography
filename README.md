@@ -6,14 +6,23 @@
 The dataset is available at [Kaggle Link](https://www.kaggle.com/datasets/awsaf49/cbis-ddsm-breast-cancer-image-dataset/data).
 In this project, we use cropped images, ``calc_case_description_test_set.csv`` and ``calc_case_description_train_set.csv``. The pre-processing part is in ``01_preprocessing.ipynb``
 
-Order dataset following this structure:
+Order dataset and create some new folders following this structure:
 
 ```
 /project-folder
-    calc_case_description_train_set.csv
+    01_preprocessing.ipynb
+    02_feature_extraction.ipynb
+    03_heat_map.ipynb
+    04_process.ipynb
     calc_case_description_test_set.csv
+    calc_case_description_train_set.csv
+    /features
+        /logo
     /raw
+        /cropped_images_all
         /image
+            all images folders...
+    /visualization
 ```
 
 ## ⚙️ Requirements
