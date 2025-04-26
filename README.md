@@ -10,6 +10,8 @@ Order dataset following this structure:
 
 ```
 /project-folder
+    calc_case_description_train_set.csv
+    calc_case_description_test_set.csv
     /raw
         /image
 ```
