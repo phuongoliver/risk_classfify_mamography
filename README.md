@@ -1,64 +1,95 @@
-# A LIGHTWEIGHT DEEP LEARNING FRAMEWORK FOR CALCIFICATION
+
+# 🎗️ Calcification Risk Classification API
+
+A professional deep learning framework for classifying breast cancer risk from mammography images, exposing a robust REST API.
+
 ## 📚 Project Overview
+This project processes mammogram images to detect and classify calcification risks. It utilizes a hybrid approach:
+1.  **Feature Extraction**: Using a pre-trained **DenseNet121** (via MONAI).
+2.  **Classification**: Using **XGBoost** for high-performance tabular classification on extracted features.
 
+The project has been restructured for production-grade deployment with a FastAPI backend.
 
-## 🗄️ Dataset
-The dataset is available at [Kaggle Link](https://www.kaggle.com/datasets/awsaf49/cbis-ddsm-breast-cancer-image-dataset/data).
-In this project, we use cropped images, ``calc_case_description_test_set.csv`` and ``calc_case_description_train_set.csv``. The pre-processing part is in ``01_preprocessing.ipynb``
+## � Research Paper
+For a detailed explanation of the methodology, hypothesis, and results, please refer to the [Technical Paper](docs/paper.pdf).
 
-Order dataset and create some new folders following this structure:
-
+## �🗄️ Project Structure
 ```
-/project-folder
-    01_preprocessing.ipynb
-    02_feature_extraction.ipynb
-    03_heat_map.ipynb
-    04_process.ipynb
-    calc_case_description_test_set.csv
-    calc_case_description_train_set.csv
-    /features
-        /logo
-    /raw
-        /cropped_images_all
-        /image
-            all images folders...
-    /visualization
+/
+├── api/
+│   └── main.py            # FastAPI application entry point
+├── src/
+│   ├── classifier.py      # Classifier wrappers (XGBoost, MLP)
+│   ├── config.py          # Configuration and constants
+│   ├── dataset.py         # Dataset class (BiomedCLIP/MONAI support)
+│   ├── evaluation.py      # Evaluation metrics and CV logic
+│   ├── feature_extractor.py # Feature extractor (BiomedCLIP/DenseNet)
+│   ├── generate_features.py # CLI for feature extraction
+│   ├── inference.py       # Inference pipeline service
+│   ├── run_evaluation.py  # CLI for model evaluation
+│   ├── train.py           # CLI for training final model
+│   └── utils.py           # Utility functions
+├── data/                  # Data storage
+├── models/                # Saved models storage
+├── requirements.txt       # Project dependencies
+└── README.md              # Project documentation
 ```
 
-## ⚙️ Requirements
-Please install the following dependencies before running the notebooks:
+## ⚙️ Setup & Installation
+
+1.  **Clone the repository**:
+    ```bash
+    git clone https://github.com/yourusername/risk-classify-mammography.git
+    cd risk-classify-mammography
+    ```
+
+2.  **Install dependencies**:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+## 🚀 Usage
+
+### Running the API
+To start the web server:
 
 ```bash
-pip install -r requirements.txt
+uvicorn api.main:app --reload
 ```
+The API will be available at `http://localhost:8000`.
+Access the interactive documentation at `http://localhost:8000/docs`.
 
-## 🚀 How to Run
+### Pipeline (CLI)
+The project now uses command-line scripts for the ML pipeline:
 
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/your-repo-name.git
-cd your-repo-name
-```
+1.  **Generate Features**:
+    Extract features from your image directory (supports BiomedCLIP, DenseNet).
+    ```bash
+    python -m src.generate_features --data_dir "path/to/images" --output_name "features_biomedclip"
+    ```
 
-2. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
+2.  **Evaluate Performance (Cross-Validation)**:
+    Run KFold or LOGO to check model accuracy metrics.
+    ```bash
+    python -m src.run_evaluation --features "data/features/features_biomedclip.npy" --labels "data/features/labels.npy" --model xgboost --cv kfold
+    ```
 
-3. Open Jupyter Notebook and run the notebooks in order:
-- `01_preprocessing.ipynb`
-- `02_feature_extraction.ipynb`
-- `03_heat_map.ipynb`
-- `04_process.ipynb`
+3.  **Train Final Model**:
+    Train the model on the full dataset and save it for the API.
+    ```bash
+    python -m src.train --features "data/features/features_biomedclip.npy" --labels "data/features/labels.npy" --output "models/xgb_model.pkl"
+    ```
 
-## 📣 Notes
-- Ensure the dataset path inside the notebooks matches your local directory.
-- For very large datasets, consider batch processing if memory issues arise.
+## 🛠️ Components
 
+- **Feature Extractor**: Uses `densenet121` from MONAI, identifying patterns in mammograms.
+- **Classifier**: XGBoost model optimized for binary/multi-class risk classification.
+- **API**: Built with FastAPI for high performance and auto-generated Swagger UI.
+
+## 📝 Notes
+- Ensure you have the trained XGBoost model placed in `models/xgb_model.pkl` for the inference API to work fully.
+- Dataset is available at [Kaggle](https://www.kaggle.com/datasets/awsaf49/cbis-ddsm-breast-cancer-image-dataset/data).
 
 ## 📫 Contact
-For any questions or contributions:
 - Email: phuong.tranolive@hcmut.edu.vn
 - GitHub: [phuongolive](https://github.com/phuongolive)
-
----
