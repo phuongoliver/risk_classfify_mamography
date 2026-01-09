@@ -1,19 +1,41 @@
 
-# 🎗️ Calcification Risk Classification API
+# 🎗️ Calcification Risk Classification Framework
 
-A professional deep learning framework for classifying breast cancer risk from mammography images, exposing a robust REST API.
+> **A Hybrid Deep Learning System combining DenseNet121 & XGBoost for High-Performance Mammography Analysis.**
 
-## 📚 Project Overview
-This project processes mammogram images to detect and classify calcification risks. It utilizes a hybrid approach:
-1.  **Feature Extraction**: Using a pre-trained **DenseNet121** (via MONAI).
-2.  **Classification**: Using **XGBoost** for high-performance tabular classification on extracted features.
+[![Python](https://img.shields.io/badge/Python-3.8%2B-blue?style=flat&logo=python&logoColor=white)](https://www.python.org/)
+[![Framework](https://img.shields.io/badge/Framework-PyTorch%20%7C%20MONAI-orange?style=flat&logo=pytorch&logoColor=white)](https://monai.io/)
+[![API](https://img.shields.io/badge/API-FastAPI-009688?style=flat&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-The project has been restructured for production-grade deployment with a FastAPI backend.
+## 📖 Introduction
 
-## � Research Paper
-For a detailed explanation of the methodology, hypothesis, and results, please refer to the [Technical Paper](docs/paper.pdf).
+This project implements a production-ready pipeline for assessing calcification risks in mammography images. Unlike traditional end-to-end Deep Learning approaches, we utilize a **Hybrid Architecture**:
 
-## �🗄️ Project Structure
+1.  **Feature Extractor:** Uses a frozen **DenseNet121** (pretrained on ImageNet/adapted via MONAI) to extract high-level visual embeddings.
+2.  **Classifier:** A lightweight **XGBoost** model performs the final classification, offering superior performance on tabular representations of image features.
+
+This approach was designed to balance **high accuracy** with **low computational cost**, suitable for deployment in resource-constrained environments (Edge/Fog nodes).
+
+## 📊 Key Results & Performance
+
+Based on the CBIS-DDSM dataset, the framework achieves state-of-the-art efficiency compared to full fine-tuning methods:
+
+| Metric | Performance | Notes |
+| :--- | :--- | :--- |
+| **Sensitivity** | **93.6%** | Critical for minimizing false negatives in medical diagnosis |
+| **Precision** | **86.1%** | Balanced false positive rate |
+| **Inference Time**| **< 150ms** | Per image latency (via FastAPI) |
+| **Training Time** | **< 2 mins** | Drastic reduction vs. hours for end-to-end CNN training |
+
+📄 *For a detailed methodology, hypothesis, and ablation study, please refer to the [**Technical Paper**](docs/paper.pdf).*
+
+## 🏗️ System Architecture
+
+<img width="1109" height="627" alt="image" src="https://github.com/user-attachments/assets/69c2490f-42e9-430b-9651-88d0948ced57" />
+
+
+## 🗄️ Project Structure
 ```
 /
 ├── api/
